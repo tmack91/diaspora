@@ -41,6 +41,7 @@ Diaspora::Application.configure do
         })
       end
 
+      puts "STMP settings #{smtp_settings.inspect}"
       config.action_mailer.smtp_settings = smtp_settings
     else
       $stderr.puts "WARNING: Mailer turned on with unknown method #{AppConfig.mail.method}. Mail won't work."

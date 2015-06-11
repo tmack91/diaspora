@@ -327,8 +327,8 @@ ActiveRecord::Schema.define(version: 20150607143809) do
     t.string   "guid",                    limit: 255
     t.text     "author_signature",        limit: 65535
     t.text     "parent_author_signature", limit: 65535
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
   end
 
   add_index "poll_participations", ["poll_id"], name: "index_poll_participations_on_poll_id", using: :btree
@@ -338,8 +338,8 @@ ActiveRecord::Schema.define(version: 20150607143809) do
     t.integer  "status_message_id", limit: 4,   null: false
     t.boolean  "status"
     t.string   "guid",              limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   add_index "polls", ["status_message_id"], name: "index_polls_on_status_message_id", using: :btree
@@ -432,12 +432,12 @@ ActiveRecord::Schema.define(version: 20150607143809) do
     t.string   "item_type",  limit: 255,                   null: false
     t.boolean  "reviewed",                 default: false
     t.text     "text",       limit: 65535
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.integer  "user_id",    limit: 4,                     null: false
   end
 
-  add_index "reports", ["item_id"], name: "index_reports_on_item_id", using: :btree
+  add_index "reports", ["item_id"], name: "index_post_reports_on_post_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.integer  "person_id",  limit: 4
@@ -477,8 +477,8 @@ ActiveRecord::Schema.define(version: 20150607143809) do
   create_table "simple_captcha_data", force: :cascade do |t|
     t.string   "key",        limit: 40
     t.string   "value",      limit: 12
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   add_index "simple_captcha_data", ["key"], name: "idx_key", using: :btree
