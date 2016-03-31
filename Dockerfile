@@ -25,9 +25,10 @@ RUN 		apt-get update && apt-get install -y \
 			automake \
 			bison \
 			libffi-dev \
+			&& apt-get -y install --fix-missing \
 			&& apt-get clean \
 			&& rm -rf /var/lib/apt/lists/*; \
-			adduser --disabled-login diaspora; mkdir /diaspora;
+			adduser --disabled-login --gecos "" diaspora; mkdir /diaspora;
 
 USER 		diaspora
 RUN 		gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3

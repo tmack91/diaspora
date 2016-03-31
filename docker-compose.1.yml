@@ -1,0 +1,20 @@
+
+web:
+  # build: .
+  image: shrikrishna/diaspora:dockerfile
+  command: '/bin/bash -l -c "bundle exec unicorn -c config/unicorn.rb"'
+  ports:
+    - "3000:3000"
+  environment:
+    - RAILS_ENV=development
+    - PORT=3000
+  volumes:
+    - "./config/diaspora.yml:/home/diaspora/diaspora/config/diaspora.yml"
+    - "./config/database.yml:/home/diaspora/diaspora/config/database.yml"
+  links:
+    - "db:db"
+    - "redis:redis"
+db:
+  image: postgres:latest
+redis:
+  image: redis:latest

@@ -1,0 +1,31 @@
+http {
+
+    gzip_static on;
+
+    server {
+        listen 80;
+
+        server_name diaspora.example.org;
+        root /srv/public;
+
+        # Proxy if requested file not found
+        try_files $uri @diaspora;
+
+        location @diaspora {
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $http_host;
+            proxy_redirect off;
+            proxy_pass http://diaspora_server;
+        }
+    }
+
+    # Proxy destination
+    # Add as many server directives as you want
+    # Also takes a socket, like unix:/path/to/some/socket.sock
+    upstream diaspora_server {
+        server web:3000;
+    }
+}
+
+events { worker_connections 1024; }
