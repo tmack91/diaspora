@@ -1,6 +1,6 @@
 FROM 		debian:jessie
 MAINTAINER	Shrikrishna Holla <shrikrishna.holla@gmail.com>
-RUN 		apt-get update && apt-get install -y \
+RUN 		apt-get update && apt-get install -y --fix-missing \
 			build-essential \
 			libssl-dev \
 			libcurl4-openssl-dev \
@@ -49,6 +49,6 @@ ENV 		DB=postgres RAILS_ENV=production
 EXPOSE 		3000
 
 RUN 		/bin/bash -l -c "gem install bundler --no-ri --no-rdoc && bundle install --without test development --with postgresql"
-ONBUILD 	/bin/bash -l -c "rake assets:precompile" # if you want to build downstream, assume diaspora.yml already exists
+ONBUILD 	RUN  /bin/bash -l -c "rake assets:precompile" # if you want to build downstream, assume diaspora.yml already exists
 
 CMD			['/bin/bash', '-l, '-c', '"bundle exec unicorn -c config/unicorn.rb"']

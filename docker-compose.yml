@@ -3,9 +3,9 @@ services:
   web:
     image: shrikrishna/diaspora:dockerfile
     command: '/bin/bash -l -c "bundle exec unicorn -c config/unicorn.rb"'
-    links:
-      - db
-      - redis
+    # links:
+    #   - db
+    #   - redis
   db:
     image: postgres:latest
   redis:

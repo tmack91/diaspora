@@ -1,0 +1,19 @@
+{
+    "container": {
+        "docker": {
+            "image": "mesosphere/marathon-lb",
+            "network": "HOST",
+            "privileged": true
+        },
+        "type": "DOCKER",
+        "env": {
+            "PORTS": 9090
+        }
+    },
+    "cpus": 0.2,
+    "id": "/marathon-lb",
+    "instances": 1,
+    "args": [
+        "sse", "--marathon", "http://localhost:8080", "--group", "external"
+    ]
+}

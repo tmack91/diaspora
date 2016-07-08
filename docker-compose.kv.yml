@@ -1,0 +1,11 @@
+version: "2"
+services:
+  consul:
+    image: progrium/consul
+    command: "-server -bootstrap -ui-dir /ui"
+    hostname: "node1"
+    ports:
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:53/udp"
+    restart: 'unless-stopped'

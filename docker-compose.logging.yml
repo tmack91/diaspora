@@ -1,0 +1,86 @@
+version: "2"
+services:
+  web:
+    environment:
+      - "RAILS_ENV=development"
+      - "PORT=3000"
+      - "constraint:node!=manager"
+      - "constraint:node!=store"
+    networks:
+      - backend
+    volumes:
+      - '${DIASPORA_DIR}/diaspora.yml:/home/diaspora/diaspora/config/diaspora.yml'
+      - '${DIASPORA_DIR}/database.yml:/home/diaspora/diaspora/config/database.yml'
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://${SYSLOG}:514"
+        tag: "web"
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    networks:
+      - backend
+    environment:
+      - "constraint:node==manager"
+    volumes:
+      - '${DIASPORA_DIR}/nginx.conf:/etc/nginx/nginx.conf'
+      - '${DIASPORA_DIR}/public:/srv/public'
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://${SYSLOG}:514"
+        tag: "nginx"
+
+  db:
+    environment:
+      - "constraint:node==store"
+    volumes:
+      - 'pgdata:/var/lib/postgresql/data'
+    networks:
+      - backend
+    restart: 'unless-stopped'
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://${SYSLOG}:514"
+        tag: "db"
+
+  redis:
+    environment:
+      - "constraint:node==store"
+    volumes:
+      - 'rdsdata:/data'
+    networks:
+      - backend
+    restart: 'unless-stopped'
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://${SYSLOG}:514"
+        tag: "redis"
+
+  syslog:
+    image: bobrik/syslog-ng
+    environment:
+      - "constraint:node==logger"
+    volumes:
+      - 'log:/var/log/syslog-ng'
+    restart: 'unless-stopped'
+    ports:
+      - "514:514/udp"
+      - "514:514"
+
+networks:
+  backend:
+    driver: overlay
+volumes:
+  pgdata:
+    driver: local
+  rdsdata:
+    driver: local
+  log:
+    driver: local
+

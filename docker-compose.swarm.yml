@@ -1,0 +1,52 @@
+version: "2"
+services:
+  web:
+    environment:
+      - "RAILS_ENV=development"
+      - "PORT=3000"
+      - "constraint:node!=aws-manager"
+      - "constraint:node!=aws-store"
+    networks:
+      - backend
+    volumes:
+      - '${DIASPORA_DIR}/diaspora.yml:/home/diaspora/diaspora/config/diaspora.yml'
+      - '${DIASPORA_DIR}/database.yml:/home/diaspora/diaspora/config/database.yml'
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    networks:
+      - backend
+    environment:
+      - "constraint:node==aws-manager"
+    volumes:
+      - '${DIASPORA_DIR}/nginx.conf:/etc/nginx/nginx.conf'
+      - '${DIASPORA_DIR}/public:/srv/public'
+
+  db:
+    environment:
+      - "constraint:node==aws-store"
+    volumes:
+      - 'pgdata:/var/lib/postgresql/data'
+    networks:
+      - backend
+    restart: 'unless-stopped'
+  redis:
+    environment:
+      - "constraint:node==aws-store"
+    volumes:
+      - 'rdsdata:/data'
+    networks:
+      - backend
+    restart: 'unless-stopped'
+
+networks:
+  backend:
+    driver: overlay
+volumes:
+  pgdata:
+    driver: local
+  rdsdata:
+    driver: local
+
