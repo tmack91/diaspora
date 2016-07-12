@@ -21,6 +21,7 @@ RUN 		apt-get update && apt-get install -y --fix-missing \
 			sqlite3 \
 			autoconf \
 			libgdbm-dev \
+			libgmp-dev \
 			libncurses5-dev \
 			automake \
 			bison \
