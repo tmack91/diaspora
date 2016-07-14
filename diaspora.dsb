@@ -1,0 +1,39 @@
+{
+  "services": {
+    "db": {
+      "Image": "postgres@sha256:e0a230a9f5b4e1b8b03bb3e8cf7322b0e42b7838c5c87f4545edb48f5eb8f077",
+      "Networks": [
+        "default"
+      ]
+    },
+    "redis": {
+      "Image": "redis@sha256:b50f15d427aea5b579f9bf972ab82ff8c1c47bffc0481b225c6a714095a9ec34",
+      "Networks": [
+        "default"
+      ]
+    },
+    "web": {
+      "Args": [
+        "/bin/bash",
+        "-l",
+        "-c",
+        "bundle exec unicorn -c config/unicorn.rb"
+      ],
+      "Env": [
+        "PORT=3000",
+        "RAILS_ENV=development"
+      ],
+      "Image": "shrikrishna/diaspora@sha256:afb4725fc95f42482ef0e2c2d7e00eb25ba6c8112acbc40bd837d0c3224a1620",
+      "Networks": [
+        "default"
+      ],
+      "Ports": [
+        {
+          "Port": 3000,
+          "Protocol": "tcp"
+        }
+      ]
+    }
+  },
+  "version": "0.1"
+}
