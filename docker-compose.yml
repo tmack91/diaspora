@@ -5,8 +5,5 @@ services:
     command: '/bin/bash -l -c "bundle exec unicorn -c config/unicorn.rb"'
     # links:
     #   - db
-    #   - redis
   db:
     image: postgres:latest
-  redis:
-    image: redis:latest
