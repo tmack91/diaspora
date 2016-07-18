@@ -32,24 +32,12 @@ services:
     networks:
       - backend
     restart: 'unless-stopped'
-  redis:
-    environment:
-      - "constraint:node==aws-store"
-    volumes:
-      - 'rdsdata:/data'
-    networks:
-      - backend
-    restart: 'unless-stopped'
 
 networks:
   backend:
     driver: overlay
 volumes:
   pgdata:
-    driver: rexray
-    driver_opts:
-      size: 10
-  rdsdata:
     driver: rexray
     driver_opts:
       size: 10

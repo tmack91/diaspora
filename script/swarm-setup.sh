@@ -78,9 +78,6 @@ eval $(docker-machine env --swarm aws-manager)
 DIASPORA_DIR=$(docker-machine ssh aws-n1 pwd) docker-compose -f docker-compose.yml -f docker-compose.swarm.yml \
 up -d db
 
-DIASPORA_DIR=$(docker-machine ssh aws-n1 pwd) docker-compose -f docker-compose.yml -f docker-compose.swarm.yml \
-up -d redis
-
 # Sleep to allow time for the databases to boot up
 echo "waiting 20 seconds for databases to warm up..."
 sleep 20

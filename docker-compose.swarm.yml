@@ -32,11 +32,6 @@ services:
     networks:
       - backend
     restart: 'unless-stopped'
-  redis:
-    environment:
-      - "constraint:node==aws-store"
-    volumes:
-      - 'rdsdata:/data'
     networks:
       - backend
     restart: 'unless-stopped'
@@ -46,7 +41,5 @@ networks:
     driver: overlay
 volumes:
   pgdata:
-    driver: local
-  rdsdata:
     driver: local
 
