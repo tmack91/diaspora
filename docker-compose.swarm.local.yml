@@ -1,3 +1,4 @@
+
 version: "2"
 services:
   web:
@@ -9,8 +10,8 @@ services:
     networks:
       - backend
     volumes:
-      - '${DIASPORA_DIR}/diaspora.yml:/home/diaspora/diaspora/config/diaspora.yml'
-      - '${DIASPORA_DIR}/database.yml:/home/diaspora/diaspora/config/database.yml'
+      - '${DIASPORA_DIR}/config/diaspora.yml:/home/diaspora/diaspora/config/diaspora.yml'
+      - '${DIASPORA_DIR}/config/database.yml:/home/diaspora/diaspora/config/database.yml'
 
   nginx:
     image: nginx:alpine
