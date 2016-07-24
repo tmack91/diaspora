@@ -74,7 +74,7 @@ docker-machine scp config/database.yml aws-n2:$(docker-machine ssh aws-n2 pwd)
 # Drumroll...
 eval $(docker-machine env --swarm aws-manager)
 
-# Start db and redis services
+# Start db service
 DIASPORA_DIR=$(docker-machine ssh aws-n1 pwd) docker-compose -f docker-compose.yml -f docker-compose.swarm.yml \
 up -d db
 
