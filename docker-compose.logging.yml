@@ -4,8 +4,8 @@ services:
     environment:
       - "RAILS_ENV=development"
       - "PORT=3000"
-      - "constraint:node!=manager"
-      - "constraint:node!=store"
+      - "constraint:node!=aws-manager"
+      - "constraint:node!=aws-store"
     networks:
       - backend
     volumes:
@@ -24,7 +24,7 @@ services:
     networks:
       - backend
     environment:
-      - "constraint:node==manager"
+      - "constraint:node==aws-manager"
     volumes:
       - '${DIASPORA_DIR}/nginx.conf:/etc/nginx/nginx.conf'
       - '${DIASPORA_DIR}/public:/srv/public'
@@ -36,7 +36,7 @@ services:
 
   db:
     environment:
-      - "constraint:node==store"
+      - "constraint:node==aws-store"
     volumes:
       - 'pgdata:/var/lib/postgresql/data'
     networks:
@@ -48,24 +48,10 @@ services:
         syslog-address: "tcp://${SYSLOG}:514"
         tag: "db"
 
-  redis:
-    environment:
-      - "constraint:node==store"
-    volumes:
-      - 'rdsdata:/data'
-    networks:
-      - backend
-    restart: 'unless-stopped'
-    logging:
-      driver: syslog
-      options:
-        syslog-address: "tcp://${SYSLOG}:514"
-        tag: "redis"
-
   syslog:
     image: bobrik/syslog-ng
     environment:
-      - "constraint:node==logger"
+      - "constraint:node==aws-logger"
     volumes:
       - 'log:/var/log/syslog-ng'
     restart: 'unless-stopped'
@@ -78,8 +64,6 @@ networks:
     driver: overlay
 volumes:
   pgdata:
-    driver: local
-  rdsdata:
     driver: local
   log:
     driver: local
