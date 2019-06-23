@@ -23,7 +23,7 @@
      #listen: 'unix:tmp/diaspora.sock'
      #listen: 'unix:/run/diaspora/diaspora.sock'
 -    #listen: '127.0.0.1:3000'
-+    listen: '0.0.0.0:3000'
++    listen: '192.168.1.117:3000'
  
      ## Set the path for the PID file of the unicorn master process (default=none)
      #pid: '/run/diaspora/diaspora.pid'
